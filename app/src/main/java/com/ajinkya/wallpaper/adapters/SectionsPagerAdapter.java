@@ -8,7 +8,6 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
 import com.ajinkya.wallpaper.fragments.Category_Fragment;
-import com.ajinkya.wallpaper.fragments.HomeFragment;
 import com.ajinkya.wallpaper.fragments.MainFragment;
 import com.ajinkya.wallpaper.fragments.PopularFragment;
 
