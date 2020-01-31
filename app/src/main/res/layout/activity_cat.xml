@@ -4,41 +4,28 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
-
+    tools:context=".activity.CatActivity">
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/AppTheme.AppBarOverlay">
 
         <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
+            android:id="@+id/cat_toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:title="Wallpaper"
+            app:title="Category"
             android:background="@android:color/white"
             app:titleTextColor="@color/colorAccent"
             app:layout_scrollFlags="scroll|enterAlways"
             android:theme="@style/MyToolbar"
             />
-
-        <com.google.android.material.tabs.TabLayout
-            android:id="@+id/tabs"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@android:color/white"
-            app:tabTextColor="#e0c3fc"
-            app:tabSelectedTextColor="@color/colorAccent"
-            app:tabRippleColor="#e0c3fc"
-            app:tabMode="fixed"
-            android:textAlignment="textStart"
-            />
     </com.google.android.material.appbar.AppBarLayout>
+<androidx.recyclerview.widget.RecyclerView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/cat_recycler_view"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-    <androidx.viewpager.widget.ViewPager
-        android:id="@+id/view_pager"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
