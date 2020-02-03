@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
@@ -13,11 +14,17 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.ajinkya.wallpaper.R;
 import com.ajinkya.wallpaper.activity.CatActivity;
+import com.ajinkya.wallpaper.models.category;
+import com.bumptech.glide.Glide;
+
+import java.util.List;
 
 public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.CatViewHolder> {
     Context context;
-    public CategoryAdapter(FragmentActivity activity) {
+    List<category> categories;
+    public CategoryAdapter(FragmentActivity activity, List<category> categories) {
         this.context=activity;
+        this.categories=categories;
     }
 
     @NonNull
@@ -29,18 +36,26 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.CatVie
 
     @Override
     public void onBindViewHolder(@NonNull CategoryAdapter.CatViewHolder holder, int position) {
-
+        Glide.with(context)
+                .load(categories.get(position).getThumbnail())
+                .placeholder(R.drawable.background)
+                .centerCrop()
+                .into(holder.category);
+        holder.category_name.setText(categories.get(position).getName());
     }
 
     @Override
     public int getItemCount() {
-        return 10;
+        return categories.size();
     }
 
     public class CatViewHolder extends RecyclerView.ViewHolder {
+        ImageView category;
+        TextView category_name;
         public CatViewHolder(@NonNull View itemView) {
             super(itemView);
-            ImageView category=itemView.findViewById(R.id.category_recycler_view_image);
+            category=itemView.findViewById(R.id.category_recycler_view_image);
+            category_name=itemView.findViewById(R.id.category_text_view);
             category.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
