@@ -5,9 +5,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activity.FullActivity">
-    <androidx.viewpager.widget.ViewPager
+    <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/full_view_pager"/>
+        android:id="@+id/full_image"
+        android:scaleType="centerCrop"
+        />
 
 </RelativeLayout>

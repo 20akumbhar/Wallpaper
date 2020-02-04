@@ -2,12 +2,11 @@ package com.ajinkya.wallpaper.adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
-import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
@@ -17,6 +16,7 @@ import com.ajinkya.wallpaper.R;
 import com.ajinkya.wallpaper.activity.FullActivity;
 import com.ajinkya.wallpaper.models.wallpaper;
 import com.bumptech.glide.Glide;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -25,6 +25,7 @@ import java.util.List;
 public class MainAdapter extends RecyclerView.Adapter<MainAdapter.VIewHolder> {
     Context context;
     List<wallpaper> wallpapers= new ArrayList<>();
+    QueryDocumentSnapshot lastvisible;
 
     public MainAdapter(FragmentActivity activity, List<wallpaper> wallpapers) {
         this.context=activity;
@@ -50,21 +51,20 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.VIewHolder> {
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(context,FullActivity.class);
-                intent.putExtra("position",position);
-                intent.putExtra("list", (Serializable) wallpapers);
+                intent.putExtra("Image",wallpapers.get(position).getImage());
                 context.startActivity(intent);
             }
         });
-       /* Glide.with(context)
-                .load(R.drawable.loader)
-
-                .into(holder.mainimage);*/
 
     }
 
     @Override
     public int getItemCount() {
         return wallpapers.size();
+    }
+
+    public void setlastvisible(QueryDocumentSnapshot lastvisible) {
+        this.lastvisible=lastvisible;
     }
 
     public class VIewHolder extends RecyclerView.ViewHolder {

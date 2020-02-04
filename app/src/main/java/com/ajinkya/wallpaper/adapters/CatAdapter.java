@@ -46,8 +46,7 @@ public class CatAdapter extends RecyclerView.Adapter<CatAdapter.ViewHolder> {
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(activity,FullActivity.class);
-                intent.putExtra("position",position);
-                intent.putExtra("list", (Serializable) wallpapers);
+               intent.putExtra("Image",wallpapers.get(position).getImage());
                 activity.startActivity(intent);
             }
         });

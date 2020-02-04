@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.ajinkya.wallpaper.R;
 import com.ajinkya.wallpaper.adapters.MainAdapter;
@@ -30,6 +31,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
+import static android.view.View.SCROLL_INDICATOR_BOTTOM;
 import static androidx.constraintlayout.widget.Constraints.TAG;
 
 /**
@@ -40,6 +42,7 @@ private RecyclerView main_recyclerview;
 private MainAdapter adapter;
 FirebaseFirestore db;
 List<wallpaper> wallpapers;
+QueryDocumentSnapshot lastvisible;
     public MainFragment() {
         // Required empty public constructor
     }
@@ -63,7 +66,22 @@ List<wallpaper> wallpapers;
         main_recyclerview.setAdapter(adapter);
         adapter.notifyDataSetChanged();
         db=FirebaseFirestore.getInstance();
+        loadfirstwallpapers();
+        main_recyclerview.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if(!main_recyclerview.canScrollVertically(SCROLL_INDICATOR_BOTTOM)){
+                    loadmorewallpapers();
+                    Toast.makeText(getActivity(), "Reached Bottoom", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    public void loadfirstwallpapers(){
         db.collection("Wallpapers").orderBy("Timestamp", Query.Direction.DESCENDING)
+                .limit(18)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -72,13 +90,36 @@ List<wallpaper> wallpapers;
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 wallpaper w= document.toObject(wallpaper.class);
                                 wallpapers.add(w);
+                                lastvisible=document;
                             }
                             adapter.notifyDataSetChanged();
+                            adapter.setlastvisible(lastvisible);
                         } else {
                             Log.w(TAG, "Error getting documents.", task.getException());
                         }
                     }
                 });
-
+    }
+    public void loadmorewallpapers(){
+        db.collection("Wallpapers").orderBy("Timestamp", Query.Direction.DESCENDING)
+                .limit(12)
+                .startAfter(lastvisible)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                wallpaper w= document.toObject(wallpaper.class);
+                                wallpapers.add(w);
+                                lastvisible=document;
+                            }
+                            adapter.notifyDataSetChanged();
+                            adapter.setlastvisible(lastvisible);
+                        } else {
+                            Log.w(TAG, "Error getting documents.", task.getException());
+                        }
+                    }
+                });
     }
 }
