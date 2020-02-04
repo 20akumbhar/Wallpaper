@@ -10,10 +10,5 @@
     android:src="@drawable/background"
     android:id="@+id/full_image_view"
     />
-<TextView
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:textSize="25sp"
-    android:text="@string/app_name"
-    android:gravity="center"/>
+
 </RelativeLayout>

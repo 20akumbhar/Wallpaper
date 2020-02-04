@@ -6,19 +6,26 @@ import androidx.fragment.app.FragmentStatePagerAdapter;
 
 import com.ajinkya.wallpaper.activity.FullActivity;
 import com.ajinkya.wallpaper.fragments.FullFragment;
+import com.ajinkya.wallpaper.models.wallpaper;
+
+import java.util.List;
 
 public class FullPageAdapter extends FragmentStatePagerAdapter {
-    public FullPageAdapter(FullActivity fullActivity, FragmentManager fm) {
+    List<wallpaper> wallpapers;
+    FullActivity fullActivity;
+    public FullPageAdapter(FullActivity fullActivity, FragmentManager fm, List<wallpaper> wallpapers) {
         super(fm);
+        this.wallpapers=wallpapers;
+        this.fullActivity=fullActivity;
     }
 
     @Override
     public Fragment getItem(int position) {
-        return new FullFragment(position);
+        return new FullFragment(fullActivity,position,wallpapers.get(position));
     }
 
     @Override
     public int getCount() {
-        return 5;
+        return wallpapers.size();
     }
 }

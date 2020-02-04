@@ -13,11 +13,18 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.ajinkya.wallpaper.R;
 import com.ajinkya.wallpaper.activity.CatActivity;
 import com.ajinkya.wallpaper.activity.FullActivity;
+import com.ajinkya.wallpaper.models.wallpaper;
+import com.bumptech.glide.Glide;
+
+import java.io.Serializable;
+import java.util.List;
 
 public class CatAdapter extends RecyclerView.Adapter<CatAdapter.ViewHolder> {
     Activity activity;
-    public CatAdapter(Activity activity) {
+    List<wallpaper> wallpapers;
+    public CatAdapter(Activity activity, List<wallpaper> wallpapers) {
         this.activity=activity;
+        this.wallpapers=wallpapers;
     }
 
     @NonNull
@@ -29,18 +36,26 @@ public class CatAdapter extends RecyclerView.Adapter<CatAdapter.ViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(@NonNull CatAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull CatAdapter.ViewHolder holder, final int position) {
+        Glide.with(activity)
+                .load(wallpapers.get(position).getThumbnail())
+                .placeholder(R.drawable.background)
+                .centerCrop()
+                .into(holder.mainimage);
         holder.mainimage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                activity.startActivity(new Intent(activity, FullActivity.class));
+                Intent intent=new Intent(activity,FullActivity.class);
+                intent.putExtra("position",position);
+                intent.putExtra("list", (Serializable) wallpapers);
+                activity.startActivity(intent);
             }
         });
     }
 
     @Override
     public int getItemCount() {
-        return 20;
+        return wallpapers.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

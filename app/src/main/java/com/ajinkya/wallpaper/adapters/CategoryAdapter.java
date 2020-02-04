@@ -35,13 +35,21 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.CatVie
     }
 
     @Override
-    public void onBindViewHolder(@NonNull CategoryAdapter.CatViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull CategoryAdapter.CatViewHolder holder, final int position) {
         Glide.with(context)
                 .load(categories.get(position).getThumbnail())
                 .placeholder(R.drawable.background)
                 .centerCrop()
                 .into(holder.category);
         holder.category_name.setText(categories.get(position).getName());
+        holder.category.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(context,CatActivity.class);
+                intent.putExtra("catname",categories.get(position).getName());
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -56,12 +64,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.CatVie
             super(itemView);
             category=itemView.findViewById(R.id.category_recycler_view_image);
             category_name=itemView.findViewById(R.id.category_text_view);
-            category.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    context.startActivity(new Intent(context, CatActivity.class));
-                }
-            });
+
         }
     }
 }

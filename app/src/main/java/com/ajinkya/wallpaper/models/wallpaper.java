@@ -2,10 +2,12 @@ package com.ajinkya.wallpaper.models;
 
 import com.google.firebase.Timestamp;
 
-public class wallpaper {
+import java.io.Serializable;
+
+public class wallpaper implements Serializable {
     String Category,Image,Thumbnail;
     boolean Trending;
-    Timestamp Timestamp;
+    transient Timestamp Timestamp;
 
     public wallpaper() {
     }

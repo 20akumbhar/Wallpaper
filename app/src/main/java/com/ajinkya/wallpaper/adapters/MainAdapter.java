@@ -2,6 +2,8 @@ package com.ajinkya.wallpaper.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +18,7 @@ import com.ajinkya.wallpaper.activity.FullActivity;
 import com.ajinkya.wallpaper.models.wallpaper;
 import com.bumptech.glide.Glide;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,7 +39,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.VIewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MainAdapter.VIewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull MainAdapter.VIewHolder holder, final int position) {
         Glide.with(context)
                 .load(wallpapers.get(position).getThumbnail())
                 .placeholder(R.drawable.background)
@@ -46,7 +49,10 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.VIewHolder> {
         holder.mainimage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                context.startActivity(new Intent(context, FullActivity.class));
+                Intent intent=new Intent(context,FullActivity.class);
+                intent.putExtra("position",position);
+                intent.putExtra("list", (Serializable) wallpapers);
+                context.startActivity(intent);
             }
         });
        /* Glide.with(context)
