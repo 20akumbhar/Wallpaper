@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.ajinkya.wallpaper.R;
@@ -43,6 +44,7 @@ private MainAdapter adapter;
 FirebaseFirestore db;
 List<wallpaper> wallpapers;
 QueryDocumentSnapshot lastvisible;
+ProgressBar progressBar;
     public MainFragment() {
         // Required empty public constructor
     }
@@ -59,6 +61,7 @@ QueryDocumentSnapshot lastvisible;
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         main_recyclerview=(RecyclerView) view.findViewById(R.id.main_recycler_view);
+        progressBar=view.findViewById(R.id.main_progress);
         main_recyclerview.setHasFixedSize(true);
         main_recyclerview.setLayoutManager(new GridLayoutManager(getActivity(),3));
         wallpapers=new ArrayList<>();
@@ -72,6 +75,7 @@ QueryDocumentSnapshot lastvisible;
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
                 if(!main_recyclerview.canScrollVertically(SCROLL_INDICATOR_BOTTOM)){
+                    progressBar.setVisibility(View.VISIBLE);
                     loadmorewallpapers();
                     Toast.makeText(getActivity(), "Reached Bottoom", Toast.LENGTH_SHORT).show();
                 }
@@ -80,6 +84,7 @@ QueryDocumentSnapshot lastvisible;
     }
 
     public void loadfirstwallpapers(){
+        progressBar.setVisibility(View.VISIBLE);
         db.collection("Wallpapers").orderBy("Timestamp", Query.Direction.DESCENDING)
                 .limit(18)
                 .get()
@@ -94,8 +99,10 @@ QueryDocumentSnapshot lastvisible;
                             }
                             adapter.notifyDataSetChanged();
                             adapter.setlastvisible(lastvisible);
+                            progressBar.setVisibility(View.GONE);
                         } else {
                             Log.w(TAG, "Error getting documents.", task.getException());
+                            progressBar.setVisibility(View.GONE);
                         }
                     }
                 });
@@ -116,8 +123,10 @@ QueryDocumentSnapshot lastvisible;
                             }
                             adapter.notifyDataSetChanged();
                             adapter.setlastvisible(lastvisible);
+                            progressBar.setVisibility(View.GONE);
                         } else {
                             Log.w(TAG, "Error getting documents.", task.getException());
+                            progressBar.setVisibility(View.GONE);
                         }
                     }
                 });

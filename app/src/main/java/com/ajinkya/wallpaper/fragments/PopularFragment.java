@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import com.ajinkya.wallpaper.R;
 import com.ajinkya.wallpaper.adapters.MainAdapter;
@@ -38,6 +39,7 @@ FirebaseFirestore db;
 List<wallpaper> wallpapers;
 MainAdapter adapter;
 QueryDocumentSnapshot lastvisible;
+ProgressBar progressBar;
     public PopularFragment() {
         // Required empty public constructor
     }
@@ -57,6 +59,7 @@ QueryDocumentSnapshot lastvisible;
         main_recyclerview.setHasFixedSize(true);
         main_recyclerview.setLayoutManager(new GridLayoutManager(getActivity(),3));
         wallpapers=new ArrayList<>();
+        progressBar=view.findViewById(R.id.main_progress2);
         adapter = new MainAdapter(getActivity(),wallpapers);
         main_recyclerview.setAdapter(adapter);
         adapter.notifyDataSetChanged();
@@ -67,6 +70,7 @@ QueryDocumentSnapshot lastvisible;
            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                super.onScrolled(recyclerView, dx, dy);
                if (!main_recyclerview.canScrollVertically(SCROLL_INDICATOR_BOTTOM)){
+                   progressBar.setVisibility(View.VISIBLE);
                    loadmorewallpapers();
                }
            }
@@ -87,7 +91,9 @@ QueryDocumentSnapshot lastvisible;
                                 lastvisible=document;
                             }
                             adapter.notifyDataSetChanged();
+                            progressBar.setVisibility(View.GONE);
                         } else {
+                            progressBar.setVisibility(View.GONE);
                             Log.w(TAG, "Error getting documents.", task.getException());
                         }
                     }
@@ -95,6 +101,8 @@ QueryDocumentSnapshot lastvisible;
     }
 
     public void loadmorewallpapers(){
+        progressBar.setVisibility(View.VISIBLE);
+
         db.collection("Wallpapers")
                 .whereEqualTo("Trending",true)
                 .orderBy("Timestamp", Query.Direction.DESCENDING)
@@ -111,7 +119,9 @@ QueryDocumentSnapshot lastvisible;
                                 lastvisible=document;
                             }
                             adapter.notifyDataSetChanged();
+                            progressBar.setVisibility(View.GONE);
                         } else {
+                            progressBar.setVisibility(View.GONE);
                             Log.w(TAG, "Error getting documents.", task.getException());
                         }
                     }

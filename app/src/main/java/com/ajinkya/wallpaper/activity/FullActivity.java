@@ -47,7 +47,6 @@ public class FullActivity extends AppCompatActivity implements View.OnClickListe
         imageView.setOnClickListener(this);
         Glide.with(FullActivity.this)
                 .load(Image)
-                .placeholder(R.drawable.background)
                 .into(imageView)
        ;
 

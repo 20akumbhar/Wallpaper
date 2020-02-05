@@ -43,7 +43,6 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.VIewHolder> {
     public void onBindViewHolder(@NonNull MainAdapter.VIewHolder holder, final int position) {
         Glide.with(context)
                 .load(wallpapers.get(position).getThumbnail())
-                .placeholder(R.drawable.background)
                 .centerCrop()
                 .into(holder.mainimage);
 

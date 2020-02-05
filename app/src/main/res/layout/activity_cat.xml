@@ -21,11 +21,26 @@
             android:theme="@style/MyToolbar"
             />
     </com.google.android.material.appbar.AppBarLayout>
+    <ProgressBar
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_gravity="center"/>
 <androidx.recyclerview.widget.RecyclerView
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/cat_recycler_view"
+    android:paddingBottom="40dp"
+    android:clipToPadding="false"
     app:layout_behavior="@string/appbar_scrolling_view_behavior" />
-
+    <ProgressBar
+        android:layout_width="match_parent"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:background="@android:color/white"
+        android:layout_height="40dp"
+        android:id="@+id/main_progress3"
+        android:visibility="visible"
+        android:layout_gravity="bottom"
+        />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
