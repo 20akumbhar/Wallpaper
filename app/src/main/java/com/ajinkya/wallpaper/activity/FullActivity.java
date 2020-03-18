@@ -6,6 +6,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
 
 import android.Manifest;
 import android.app.WallpaperManager;
@@ -140,7 +141,7 @@ public class FullActivity extends AppCompatActivity implements View.OnClickListe
             FileOutputStream out=new FileOutputStream(file);
             bmp.compress(Bitmap.CompressFormat.JPEG,100,out);
             out.close();
-            bmpuri=Uri.fromFile(file);
+            bmpuri=FileProvider.getUriForFile(FullActivity.this,"com.ajinkya.wallpaper.provider",file);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -175,7 +176,7 @@ public class FullActivity extends AppCompatActivity implements View.OnClickListe
             bitmap.compress(Bitmap.CompressFormat.JPEG,100,out);
             out.flush();
             out.close();
-            return Uri.fromFile(file);
+            return FileProvider.getUriForFile(FullActivity.this,"com.ajinkya.wallpaper.provider",file);
         } catch (FileNotFoundException e) {
             Toast.makeText(FullActivity.this, "File not found"+e.getMessage(), Toast.LENGTH_SHORT).show();
             e.printStackTrace();

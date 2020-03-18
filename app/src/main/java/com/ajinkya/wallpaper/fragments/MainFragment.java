@@ -1,6 +1,9 @@
 package com.ajinkya.wallpaper.fragments;
 
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -131,4 +134,6 @@ ProgressBar progressBar;
                     }
                 });
     }
+
+
 }

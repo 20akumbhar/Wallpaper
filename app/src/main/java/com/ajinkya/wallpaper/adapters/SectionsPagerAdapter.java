@@ -1,6 +1,8 @@
 package com.ajinkya.wallpaper.adapters;
 
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -48,4 +50,6 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
         }
         return  title;
     }
+
+
 }
